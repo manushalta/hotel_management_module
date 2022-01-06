@@ -16,7 +16,9 @@
 
     'depends': ['base'],
     'license': 'AGPL-3',
-
+    
+    'price': 2.99,
+    'currency': 'USD',
     'data': [
         'security/ir.model.access.csv',
         'views/main_view.xml',
