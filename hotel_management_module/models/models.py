@@ -7,7 +7,6 @@ from odoo.exceptions import ValidationError
 class hotel_management_module(models.Model):
     _name = 'hotel_management_module.users'
     _description = 'hotel_management_module.users'
-
     name = fields.Char(string="Name", required=True)
     phone = fields.Char(string="Contact", required=True)
     nationality = fields.Many2one('res.country', string='Nationality')
@@ -21,7 +20,6 @@ class hotel_management_module(models.Model):
     number_of_rooms = fields.Integer(string="Total Rooms", compute="_number_of_rooms", store=True)
     per_day_price = fields.Integer(string="Per day price will be", compute="total_price")
     price = fields.Float(string="Price to Pay", compute="total_price", store=True)
-    # total_days = fields.Integer(compute="_total_days", store=True)
     date_diff = fields.Integer(string="Total Days", compute="_date_difference", store=True)
     official_room_price = fields.Integer(string="Room Price", default=2000)
     room_price = fields.Integer(string="Room Price for Guest")
@@ -36,16 +34,32 @@ class hotel_management_module(models.Model):
 
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('done', 'Done'),
+        ('booked', 'Booked'),
+        ('cancelled', 'Cancelled'),
+        ('done', 'Payment Completed'),
     ], required=True, default='draft')
     discount_on_room = fields.Integer(string="Discount", compute="_discount_on_room", store=True)
     description = fields.Text()
+
+    join_id = fields.Char(string="ID", readonly=True, required=True, copy=False, default='1')
+
+    @api.depends('status')
+    def move_to_draft(self):
+        for record in self:
+            record.write({'state': 'draft'})
+            record.write({'status': 'pending'})
+
+    @api.depends('status')
+    def booked(self):
+        for record in self:
+            record.write({'status': 'booked'})
+            record.write({'state': 'draft'})
 
     @api.depends('status')
     def booking_cancelled(self):
         for record in self:
             record.write({'status': 'cancelled'})
-            record.write({'state': 'draft'})
+            record.write({'state': 'cancelled'})
 
     @api.depends('status')
     def payment_collected(self):

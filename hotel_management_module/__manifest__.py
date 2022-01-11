@@ -11,16 +11,16 @@
 
 
     'category': 'Tools',
-    'version': '15.0',
+    'version': '15.1',
 
 
-    'depends': ['base'],
+    'depends': ['base', 'calendar'],
     'license': 'AGPL-3',
-    
-    
+
     'data': [
         'security/ir.model.access.csv',
         'views/main_view.xml',
+        'views/join_id.xml'
     ],
 
     'css': [

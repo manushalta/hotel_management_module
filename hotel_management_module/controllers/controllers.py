@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
 # from odoo import http
+# from odoo.http import Controller, route, request
 #
 #
 # class HotelManagementModule(http.Controller):
-#     @http.route('/index', auth='public')
+#     @http.route('/hotel_management_module/index', auth='public')
 #     def index(self, **kw):
-#
-#         return http.request.render('hotel_management_module.to_render')
+#         return "Returning Something"
 #
 #     @http.route('/hotel_management_module/hotel_management_module/objects', auth='public')
 #     def list(self, **kw):
@@ -23,3 +22,5 @@
 #         return http.request.render('hotel_management_module.object', {
 #             'object': obj
 #         })
+#
+#

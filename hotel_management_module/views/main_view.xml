@@ -3,23 +3,35 @@
     <data>
 
         <!--            VIEWS           -->
+        <record id = "seq_join_id" model="ir.sequence">
 
+            <field name="name">JOIN ID</field>
+            <field name="code">hotel_management_module.users</field>
+            <field name="active">TRUE</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">2</field>
+            <field name="padding">3</field>
+            <field name="implementation">standard</field>
+
+        </record>
         <record model = "ir.ui.view" id = "users_list_view">
             <field name = "name">user.view</field>
             <field name = "model">hotel_management_module.users</field>
              <field name="priority" eval="15"/>
             <field name = "arch" type = "xml">
-                <form string="User">
+                <form string="User" create="false">
                     <header>
-                            <button class = "btn btn-primary" type="object" name="payment_collected" string="Payment Collected"/>
-                            <button class = "btn btn-danger" type="object" name="booking_cancelled" string="Cancel Booking" confirm="Confirm Cancel Booking?"/>
-                            <field name="state" widget="statusbar" statusbar_visible="draft,done,cancel"/>
+                        <button class = "btn btn-primary" type="object" name="payment_collected" string="Payment Collected"/>
+                        <button class = "btn btn-danger" type="object" name="booking_cancelled" string="Cancel Booking" confirm="Confirm Cancel Booking?"/>
+                        <button class="btn btn-primary" type="object" name="move_to_draft" string="Move to Draft" confirm="Move to Draft ? " />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,cancelled,done"/>
                     </header>
                       <sheet>
                           <group>
                               <group>
-                                      <field name="name" placeholder="Full Name"/>
-                                      <field name="phone" placeholder="Contact NUmber"/>
+                                     <field name="join_id" invisible="1"/>
+                                     <field name="name" placeholder="Full Name"/>
+                                     <field name="phone" placeholder="Contact Number"/>
                               </group>
                               <group>
                                       <field name="id_proof" widget="image" class="oe_avatar"/>
@@ -131,7 +143,6 @@
                                 <td name ="td_to_date" class = "text-center"><span t-field="o.to_date" /> </td>
                                 <td name ="td_total_peoples" class = "text-center"><span t-field="o.total_count" /> </td>
                                 <td name ="td_total_price" class = "text-center">Rs. <span t-field="o.price" /> </td>
-
                             </tr>
 
                         </tbody>
@@ -203,7 +214,7 @@
         </field>
     </record>
 
-          <!--                ACTIONS           -->
+            <!--                ACTIONS           -->
 
         <record id = "action_report_pdf" model = "ir.actions.report">
             <field name = "name">Print Bill</field>
@@ -223,8 +234,8 @@
         <!--                MENUITEMS           -->
 
         <menuitem id = "main_menu_item" name = "Hotel Management" action = "user_list_action"/>
-<!--        <menuitem id = "to_contacts" name = "Contacts" action="contacts.action_contacts" parent="main_menu_item"/>-->
         <menuitem id = "to_calender" name="Calender" action="calendar.action_calendar_event" parent="main_menu_item"/>
+
 
 </data>
 </odoo>
