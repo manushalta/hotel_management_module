@@ -4,14 +4,14 @@
 
     'summary': """ Hotel Management """,
 
-    'description': """Hotel Management App for keep record of your Guests with a identity upload""",
+    'description': """Hotel Management App for keep record of your Guests with identity upload""",
 
     'author': "Socio",
     'website': "http://www.sociodev.com",
 
 
     'category': 'Tools',
-    'version': '15.1',
+    'version': '16.1',
 
 
     'depends': ['base', 'calendar'],
@@ -20,9 +20,13 @@
     'data': [
         'security/ir.model.access.csv',
         'views/main_view.xml',
-        'views/join_id.xml'
+        'views/join_id.xml',
+        'views/rooms.xml',
+        'views/floors.xml',
     ],
-
+    'qweb': [
+        'views/react_template.xml'
+      ],
     'css': [
         'static/src/css/oe_avatar.css'
     ],

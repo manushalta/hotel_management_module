@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model = "ir.ui.view" id = "room_list_view">
+            <field name = "name">Rooms</field>
+            <field name = "model">hotel_management_module.rooms</field>
+             <field name="priority" eval="15"/>
+            <field name = "arch" type = "xml">
+                <form string="Rooms" create="false">
+                    <sheet>
+                        <header>
+                            &lt;h3&gt;Room Details&lt;/h3&gt;
+                        </header>
+                          <group>
+                              <group>
+                                  <field name ="status" readonly="1"/>
+                                  <field name="room_type" placeholder="Select Room Type"/>
+                                  <field name="floor_no" placeholder="Select Floor Number"/>
+                                <field name="dimensions" placeholder = "Enter Size of the Room (optional)"/>
+                              </group>
+                              <group>
+                                  <field name="booked" readonly="1"/>
+                                  <field name = 'booked_by' readonly="1" />
+                                  <field name = "room_price" />
+                              </group>
+                          </group>
+                         <header>
+                            &lt;h3&gt;Pictures&lt;/h3&gt;
+                        </header>
+                            <group>
+                                <field name="picture0" widget="image" class="oe_avatar"/>
+                                <field name="picture1" widget="image" class="oe_avatar"/>
+                                <field name="picture2" widget="image" class="oe_avatar"/>
+                            </group>
+                        <header>
+                            &lt;h3&gt;Amenities&lt;/h3&gt;
+                        </header>
+                            <group>
+                                <group>
+                                    <field name="attached_washroom" />
+                                     <field name="led_tv" />
+                                </group>
+                                <group>
+                                    <field name="free_wifi" />
+                                    <field name="breakfast_incl" />
+                                </group>
+                                <group>
+                                    <field name="hot_bathtub" />
+                                </group>
+                                <group>
+                                    <field name="room_description" />
+                                </group>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="room_kanban_view" model="ir.ui.view">
+            <field name="name">hotel_management_module.users.kanban</field>
+            <field name="model">hotel_management_module.rooms</field>
+            <field name="arch" type="xml">
+                <kanban class="o_res_partner_kanban">
+                    <field name="id"/>
+                    <field name="room_type"/>
+                    <field name="floor_no"/>
+                    <field name="dimensions"/>
+<!--Template for kanban view -->
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                          <group>
+                            <group>
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('hotel_management_module.rooms','picture0',record.id.raw_value)"/>
+                            </div>
+                            <div class="o_dropdown_kanban dropdown">
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                    </div>
+                             </div>
+                             </group>
+                             <group>
+                                    &amp;bull; <field name="room_type"/> &lt;br&gt;
+                                    &amp;bull; &lt;b&gt;<field name="status"/>&lt;/b&gt;&lt;br&gt;
+                             </group>
+                            </group>
+                       </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+        <record id="hotel_rooms" model="ir.actions.act_window">
+            <field name="name">Rooms</field>
+            <field name="res_model">hotel_management_module.rooms</field>
+            <field name="view_mode">kanban,form</field>
+        </record>
+
+            <menuitem id = "rooms_and_floors" name="Rooms and Floors" action="hotel_rooms" parent="hotel_management_module.main_menu_item" sequence="3"/>
+            <menuitem id = "to_rooms" name="Rooms" action="hotel_rooms" parent="rooms_and_floors" sequence="1"/>
+
+
+    </data>
+</odoo>

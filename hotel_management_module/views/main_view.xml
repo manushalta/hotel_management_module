@@ -27,11 +27,16 @@
                         <field name="state" widget="statusbar" statusbar_visible="draft,cancelled,done"/>
                     </header>
                       <sheet>
+                          <header>
+                              <field string="Booked" name = "booking" invisible="1"/>
+                              <field name = 'progress' widget="progressbar"/>
+                          </header>
                           <group>
                               <group>
-                                     <field name="join_id" invisible="1"/>
-                                     <field name="name" placeholder="Full Name"/>
-                                     <field name="phone" placeholder="Contact Number"/>
+                                  <field name="join_id" invisible="1"/>
+                                  <field name="name" placeholder="Full Name"/>
+                                  <field name="phone" placeholder="Contact Number"/>
+                                  <field name="email" placeholder="Email" />
                               </group>
                               <group>
                                       <field name="id_proof" widget="image" class="oe_avatar"/>
@@ -40,8 +45,7 @@
                                   <field name="nationality" placeholder="Select Country"/>
                                   <field name="coming_from" placeholder="Coming From"/>
                            </group>
-
-                        </group>
+                          </group>
 
                           <group>
                             <group>
@@ -55,7 +59,12 @@
                            </group>
                      </group>
                           <group>
-                              <button class="btn-primary" type="object" name="test_function" string="Set Room Price"/>
+                              <group>
+                                  <field name = "price_room" readonly="1"/>
+                              </group>
+                              <group>
+                                  <field name="room_id" widget="many2one" placeholder="Room" context="{'room_type' : 1}" options='{"always_reload": True}' confirm="Sure ?  " />
+                              </group>
                           </group>
                       <notebook>
                        <page string="Automated Count">
@@ -87,25 +96,6 @@
             </field>
         </record>
 
-        <record id = "on_click_form" model = "ir.ui.view">
-            <field name = "name">user_click.view</field>
-            <field name = "model">hotel_management_module.users</field>
-            <field name = "arch" type = "xml">
-                <form string = "clicked_form" name="Enter Price for the Room">
-                    <sheet>
-                        <group>
-                            <group>
-                                <field name="official_room_price" placeholder="Set Room Price" />
-                                <field name="room_price" placeholder="Enter Room Price for guest"/>
-                            </group>
-                            <group>
-                                <field name = "discount_on_room" />
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
         <template id = "report_pdf">
             <t t-call="web.html_container">
                 <div t-foreach="docs" t-as="o">
@@ -147,8 +137,6 @@
 
                         </tbody>
                     </table>
-
-
                          </div>
                      </t>
                 </div>
@@ -162,8 +150,6 @@
             <field name="type">graph</field>
             <field name="arch" type="xml">
                      <graph string="Graph">
-
-
                          <field name="price" operator="*"/>
                      </graph>
             </field>
@@ -178,6 +164,7 @@
                     <field name="name"/>
                     <field name="phone"/>
 <!--Template for kanban view -->
+
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click">
@@ -225,6 +212,7 @@
             <field name = "binding_model_id" eval="False"/>
             <field name = "binding_type">report</field>
         </record>
+
         <record id="user_list_action" model="ir.actions.act_window">
             <field name="name">Dashboard</field>
             <field name="res_model">hotel_management_module.users</field>
@@ -233,9 +221,8 @@
 
         <!--                MENUITEMS           -->
 
-        <menuitem id = "main_menu_item" name = "Hotel Management" action = "user_list_action"/>
-        <menuitem id = "to_calender" name="Calender" action="calendar.action_calendar_event" parent="main_menu_item"/>
-
+        <menuitem id = "main_menu_item" name = "Hotel Management" action = "user_list_action" sequence="0"/>
+        <menuitem id = "to_calender" name="Calender" action="calendar.action_calendar_event" parent="main_menu_item" sequence="1"/>
 
 </data>
 </odoo>
